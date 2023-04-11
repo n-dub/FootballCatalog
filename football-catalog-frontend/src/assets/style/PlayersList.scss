@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@import './variables.scss';
 
 .List-table {
     background-color: $section-background;
@@ -9,6 +9,10 @@
 
 .List-table thead {
     background-color: $background;
+}
+
+.List-table th {
+    padding: 1em 0;
 }
 
 .List-table tr:nth-child(2n) {

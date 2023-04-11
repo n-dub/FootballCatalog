@@ -1,4 +1,4 @@
-import './App.scss';
+import '../assets/style/App.scss';
 import Main from './Main';
 
 const App = () => {

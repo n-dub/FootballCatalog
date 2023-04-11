@@ -4,7 +4,7 @@ const RegisterForm = () => {
   const endpoint = '/api/Players/Create';
 
   return (
-    <section className='App-section'>
+    <section className='App-section Register-form'>
       <h2 className='App-header'>
         Добавление футболиста
       </h2>

@@ -1,16 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import axios from "../axios";
+import axios from "../api/axios";
 import { IFootballPlayer } from "./IFootballPlayer";
-import countries from "./Countries";
-import './PlayersList.scss';
+import '../assets/style/PlayersList.scss';
 import PlayerForm from "./PlayerForm";
-import { HubConnectionBuilder } from "@microsoft/signalr";
+import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
+import { getCountryName } from "./Country";
 
 const connection = new HubConnectionBuilder()
   .withUrl('https://localhost:7070/api/PlayersHub')
   .build();
-
-connection.start();
 
 const PlayersList = () => {
   const editEndpoint = '/api/Players/Update';
@@ -30,6 +28,10 @@ const PlayersList = () => {
       console.log('fetched players');
       setPlayers(data);
       setError('');
+
+      if (connection.state === HubConnectionState.Disconnected) {
+        connection.start();
+      }
     } catch (err) {
       setPlayers([]);
       setError((err as Error).message);
@@ -48,7 +50,7 @@ const PlayersList = () => {
   };
 
   const updatePlayer = (p: IFootballPlayer) => {
-    const idx = players.findIndex(player => player.id == p.id);
+    const idx = players.findIndex(player => player.id === p.id);
     let newPlayers = [...players];
     newPlayers[idx] = p as IFootballPlayer;
     newPlayers.sort((a, b) => a.name.localeCompare(b.name));
@@ -83,8 +85,8 @@ const PlayersList = () => {
         <tbody>
           {players.map(player => {
             const { name, lastName, team } = player;
-            const country = countries[player.country];
-            const gender = player.gender == 0 ? 'Муж' : 'Жен';
+            const country = getCountryName(player.country);
+            const gender = player.gender === 0 ? 'Муж' : 'Жен';
             const birthday = new Date(player.birthday).toLocaleDateString();
 
             return (
@@ -104,7 +106,7 @@ const PlayersList = () => {
                   </td>
                 </tr>
                 {editedId === player.id &&
-                  (<tr key={0}>
+                  (<tr key={`${player.id}-editor`}>
                     <td className='Editor' colSpan={7}>
                       <PlayerForm endpoint={editEndpoint} defaultValues={player} />
                     </td>

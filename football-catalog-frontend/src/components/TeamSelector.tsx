@@ -1,8 +1,8 @@
 import React, { ReactElement, useCallback, useEffect } from "react";
 import { useRef, useState } from "react";
-import axios from "../axios";
+import axios from "../api/axios";
 import { IFootballTeam } from './IFootballTeam';
-import './TeamSelector.scss';
+import '../assets/style/TeamSelector.scss';
 
 interface ITeamSelectorProps {
   onSelect: (team?: IFootballTeam) => void;
@@ -103,11 +103,11 @@ const TeamSelector = ({ onSelect, defaultValue }: ITeamSelectorProps) => {
             );
           })}
         </ul>
-        <em className={teams.length == 0 ? '' : 'Hidden'}>
+        <em className={teams.length === 0 ? '' : 'Hidden'}>
           {error !== ''
             ? <>Не удалось получить список команд: {error}</>
             : <>По запросу &laquo;{userInput}&raquo; не найдено ни одной команды, но вы можете&nbsp;
-              <a onClick={e => {
+              <a href='#' onClick={e => {
                 e.preventDefault();
                 createTeam(userInput);
               }}>создать новую</a>

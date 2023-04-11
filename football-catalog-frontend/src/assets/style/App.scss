@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@import './variables.scss';
 
 .App {
     background-color: $background;
@@ -27,6 +27,10 @@
     align-items: stretch;
     justify-content: stretch;
     margin: 2em 0px;
+}
+
+.App-section:not(.Register-form) {
+    width: 1000px;
 }
 
 .App-section:first-child {

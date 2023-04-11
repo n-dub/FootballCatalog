@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-import './PlayerForm.scss';
-import axios from '../axios';
+import '../assets/style/PlayerForm.scss';
+import axios from '../api/axios';
 import TeamSelector from './TeamSelector';
 import { IFootballPlayer } from './IFootballPlayer';
-import countries from './Countries';
+import { Countries } from './Country';
 
 interface IPlayerFormProps {
   endpoint: string;
@@ -71,7 +71,6 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
 
     try {
       const { data } = await axios.post(endpoint, requestObject);
-      console.log(`Created a player with ID = ${data}`);
       formRef.current?.reset();
       setShowSuccess(true);
     } catch (error) {
@@ -151,7 +150,7 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
           className='Form-item'
           value={playerData.country}
           onChange={(e) => setPlayerData({...playerData, country: Number.parseInt(e.target.value)})}>
-          {countries.map((c, i) => (
+          {Countries.map((c, i) => (
             <option value={i}>{c}</option>
           ))}
         </select>
