@@ -11,11 +11,11 @@ public sealed class FootballPlayer
 
     [RegularExpression(@"^[\p{L}\-']+$")]
     [StringLength(64)]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
     [RegularExpression(@"^[\p{L}\-']+$")]
     [StringLength(64)]
-    public string LastName { get; set; } = null!;
+    public required string LastName { get; set; }
 
     public Gender Gender { get; set; }
     public DateOnly Birthday { get; set; }

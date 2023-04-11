@@ -10,7 +10,7 @@ public sealed class FootballTeam
     [Key]
     public int Id { get; set; }
     [StringLength(64)]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
     [JsonIgnore]
     public ICollection<FootballPlayer> Players { get; set; } = null!;

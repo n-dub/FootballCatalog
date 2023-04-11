@@ -38,6 +38,7 @@ public class TeamsController : ControllerBase
     public async Task<IActionResult> Search(string pattern, [Required, Range(0, 32)] int maxCount)
     {
         logger.LogInformation("Received request to get teams starting with {}", pattern);
+
         var lowerPattern = pattern.ToLower();
         var result = await dataContext.Teams
             .AsNoTracking()
