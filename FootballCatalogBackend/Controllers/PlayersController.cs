@@ -29,11 +29,11 @@ public class PlayersController : ControllerBase
     {
         var entry = await dataContext.Players.AddAsync(player);
         var entity = entry.Entity;
-        await dataContext.SaveChangesAsync();
 
-        entity.Team = await dataContext.Teams
-            .AsNoTracking()
-            .FirstAsync(team => team.Id == entity.TeamId);
+        await dataContext.SaveChangesAsync();
+        await dataContext.Entry(entity)
+            .Reference(p => p.Team)
+            .LoadAsync();
         await hubContext.Clients.All.PlayerAdded(entity);
 
         return Ok(entity.Id);
@@ -58,9 +58,9 @@ public class PlayersController : ControllerBase
         entry.Country = player.Country;
         await dataContext.SaveChangesAsync();
 
-        entry.Team = await dataContext.Teams
-            .AsNoTracking()
-            .FirstAsync(team => team.Id == entry.TeamId);
+        await dataContext.Entry(entry)
+            .Reference(p => p.Team)
+            .LoadAsync();
         await hubContext.Clients.All.PlayerUpdated(entry);
 
         return Ok(entry);
