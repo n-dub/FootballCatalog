@@ -49,7 +49,7 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
     const name_re = /^[\p{L}'\-]{1,64}$/u;
     const {name, lastName} = playerData;
     if (!name_re.test(name) || !name_re.test(lastName)) {
-      setErrorMessage('Имя и фамилия должны быть не длиннее 64 символов, содержать только буквы и знаки: \' и -');
+      setErrorMessage('Имя и фамилия должны быть не длиннее 64 символов, могут состоять только из букв и знаков: \' и -');
       return false;
     }
 
