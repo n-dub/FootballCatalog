@@ -1,20 +1,25 @@
 @import '../variables.scss';
 
 .List-table {
-    background-color: $background;
+    background-color: $section-background;
     width: 100%;
     font-size: 0.8em;
+    border-radius: $border-radius;
+}
+
+.List-table thead {
+    background-color: $background;
 }
 
 .List-table tr:nth-child(2n) {
-    background-color: $section-background;
+    background-color: $background;
     height: 2em;
 }
 
 .List-table td:not(.Editor) {
     overflow: hidden;
     white-space: nowrap;
-    padding: 0.5em;
+    padding: 0.7em;
     text-overflow: ellipsis;
 }
 

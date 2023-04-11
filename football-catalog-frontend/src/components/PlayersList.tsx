@@ -4,6 +4,13 @@ import { IFootballPlayer } from "./IFootballPlayer";
 import countries from "./Countries";
 import './PlayersList.scss';
 import PlayerForm from "./PlayerForm";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+
+const connection = new HubConnectionBuilder()
+  .withUrl('https://localhost:7070/api/PlayersHub')
+  .build();
+
+connection.start();
 
 const PlayersList = () => {
   const editEndpoint = '/api/Players/Update';
@@ -33,6 +40,25 @@ const PlayersList = () => {
   useEffect(() => {
     fetchPlayers();
   }, [fetchPlayers]);
+
+  const addPlayer = (p: IFootballPlayer) => {
+    let newPlayers = [...players, p];
+    newPlayers.sort((a, b) => a.name.localeCompare(b.name));
+    setPlayers(newPlayers);
+  };
+
+  const updatePlayer = (p: IFootballPlayer) => {
+    const idx = players.findIndex(player => player.id == p.id);
+    let newPlayers = [...players];
+    newPlayers[idx] = p as IFootballPlayer;
+    newPlayers.sort((a, b) => a.name.localeCompare(b.name));
+    setPlayers(newPlayers);
+  };
+
+  useEffect(() => {
+    connection.on('PlayerAdded', addPlayer);
+    connection.on('PlayerUpdated', updatePlayer);
+  });
 
   return (
     <section className='App-section'>
@@ -79,7 +105,7 @@ const PlayersList = () => {
                 </tr>
                 {editedId === player.id &&
                   (<tr key={0}>
-                    <td className='Editor' colSpan={6}>
+                    <td className='Editor' colSpan={7}>
                       <PlayerForm endpoint={editEndpoint} defaultValues={player} />
                     </td>
                   </tr>)}
