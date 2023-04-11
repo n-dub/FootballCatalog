@@ -1,0 +1,44 @@
+@import '../variables.scss';
+
+.App {
+    background-color: $background;
+    color: $text-color;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    font-size: $font-size;
+}
+
+.App-header {
+    text-align: center;
+}
+
+.App-section {
+    border-radius: $border-radius;
+    background-color: $section-background;
+    padding: 0.5em 1em;
+    width: 700px;
+    min-width: fit-content;
+    max-width: 85vw;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    margin: 2em 0px;
+}
+
+.App-section:first-child {
+    margin-top: 4em;
+}
+
+a {
+    text-decoration: none;
+    color: $btn-color;
+    cursor: pointer;
+}
+
+.Hidden {
+    display: none;
+}

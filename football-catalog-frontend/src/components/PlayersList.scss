@@ -1,0 +1,23 @@
+@import '../variables.scss';
+
+.List-table {
+    background-color: $background;
+    width: 100%;
+    font-size: 0.8em;
+}
+
+.List-table tr:nth-child(2n) {
+    background-color: $section-background;
+    height: 2em;
+}
+
+.List-table td:not(.Editor) {
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0.5em;
+    text-overflow: ellipsis;
+}
+
+.List-table td.Name {
+    max-width: 5vw;
+}

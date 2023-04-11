@@ -1,0 +1,59 @@
+@import '../variables.scss';
+
+.Form-fieldset {
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    margin: 0.5em 0;
+}
+
+.Binary-select {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Form-radio {
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+}
+
+.Form-item {
+    background-color: $field-background;
+    color: $field-color;
+    border-radius: 5px;
+    height: calc(45px);
+    margin: 2vmin;
+    font-size: $font-size;
+}
+
+.Form-button {
+    background-color: $btn-color;
+    color: $text-color;
+    height: 3em;
+    margin: 0.5em 0;
+}
+
+.Form-button:hover {
+    background-color: $btn_hover;
+}
+
+.Form-error, .Form-success {
+    text-align: justify;
+    padding: 0.5em;
+}
+
+.Form-error {
+    background-color: rgb(131, 38, 38);
+    border: solid rgb(104, 0, 0);
+}
+
+.Form-success {
+    background-color: rgb(38, 131, 43);
+    border: solid rgb(0, 104, 5);
+}

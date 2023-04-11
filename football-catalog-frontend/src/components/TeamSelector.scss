@@ -1,0 +1,34 @@
+@import '../variables.scss';
+
+.Suggestions {
+    background-color: $field-background;
+    color: $field-color;
+    border-radius: 5px;
+    margin: 2vmin;
+    font-size: $font-size;
+
+    list-style: none;
+    max-height: 150px;
+    overflow-y: auto;
+    padding-left: 0;
+}
+
+.Suggestions li {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.Suggestions li:hover
+ {
+    background-color: $btn-hover;
+    color: $text-color;
+}
+
+.Suggestion-active {
+    background-color: $btn-color;
+    color: $text-color;
+}
+
+.Suggestions li:not(:last-of-type) {
+    border-bottom: 1px solid #999;
+}
