@@ -32,7 +32,6 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
 
   useEffect(() => {
     nameRef.current?.focus();
-    console.log(defaultValues?.birthday);
   }, []);
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
       return false;
     }
 
-    const name_re = /^[\p{L}'\-]{1,64}$/u;
+    const name_re = /^[\p{L}'-]{1,64}$/u;
     const {name, lastName} = playerData;
     if (!name_re.test(name) || !name_re.test(lastName)) {
       setErrorMessage('Имя и фамилия должны быть не длиннее 64 символов, могут состоять только из букв и знаков: \' и -');
