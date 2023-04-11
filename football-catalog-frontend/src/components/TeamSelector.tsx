@@ -5,7 +5,7 @@ import { IFootballTeam } from './IFootballTeam';
 import './TeamSelector.scss';
 
 interface ITeamSelectorProps {
-  onSelect: (team: IFootballTeam | null) => void;
+  onSelect: (team?: IFootballTeam) => void;
   defaultValue?: IFootballTeam;
 }
 
@@ -69,7 +69,7 @@ const TeamSelector = ({ onSelect, defaultValue }: ITeamSelectorProps) => {
   const inputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
     setActiveTeam('');
-    onSelect(null);
+    onSelect();
   };
 
   const createTeam = async (name: string) => {

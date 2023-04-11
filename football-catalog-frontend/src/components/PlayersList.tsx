@@ -39,7 +39,10 @@ const PlayersList = () => {
       <h2 className='App-header'>
         Список футболистов
       </h2>
-      <table className='List-table'>
+      <em className={!error ? 'Hidden' : ''}>
+        Не удалось получить список футболистов: {error}
+      </em>
+      <table className={error === '' ? 'List-table' : 'Hidden'}>
         <thead>
           <tr>
             <th>Имя</th>
