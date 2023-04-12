@@ -5,6 +5,7 @@ import '../assets/style/PlayersList.scss';
 import PlayerForm from "./PlayerForm";
 import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { getCountryName } from "./Country";
+import { Gender } from "./Gender";
 
 const connection = new HubConnectionBuilder()
   .withUrl('https://localhost:7070/api/PlayersHub')
@@ -86,7 +87,7 @@ const PlayersList = () => {
           {players.map(player => {
             const { name, lastName, team } = player;
             const country = getCountryName(player.country);
-            const gender = player.gender === 0 ? 'Муж' : 'Жен';
+            const gender = player.gender === Gender.Male ? 'Муж' : 'Жен';
             const birthday = new Date(player.birthday).toLocaleDateString();
 
             return (
