@@ -4,6 +4,7 @@ import axios from '../api/axios';
 import TeamSelector from './TeamSelector';
 import { IFootballPlayer } from './IFootballPlayer';
 import { Countries } from './Country';
+import { Gender } from './Gender';
 
 interface IPlayerFormProps {
   endpoint: string;
@@ -13,7 +14,6 @@ interface IPlayerFormProps {
 const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
   defaultValues ??= {
     id: 0,
@@ -34,11 +34,6 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
     nameRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    setErrorMessage('');
-    setShowSuccess(false);
-  }, [playerData]);
-
   const validateForm = () => {
     if (!playerData.team) {
       setErrorMessage('Укажите команду');
@@ -46,7 +41,7 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
     }
 
     const name_re = /^[\p{L}'-]{1,64}$/u;
-    const {name, lastName} = playerData;
+    const { name, lastName } = playerData;
     if (!name_re.test(name) || !name_re.test(lastName)) {
       setErrorMessage('Имя и фамилия должны быть не длиннее 64 символов, могут состоять только из букв и знаков: \' и -');
       return false;
@@ -71,7 +66,9 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
 
     try {
       const { data } = await axios.post(endpoint, requestObject);
-      formRef.current?.reset();
+      if (defaultValues?.id === 0) {
+        setPlayerData(defaultValues!);
+      }
       setShowSuccess(true);
     } catch (error) {
       console.log(error);
@@ -84,13 +81,17 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
   };
 
   return (
-    <form onSubmit={submit} ref={formRef}>
+    <form onSubmit={submit}
+      onChange={() => {
+        setErrorMessage('');
+        setShowSuccess(false);
+      }}>
       <fieldset className='Form-fieldset'>
         <legend>Имя:</legend>
         <input type='text'
           className='Form-item'
           value={playerData.name}
-          onChange={(e) => setPlayerData({...playerData, name: e.target.value})}
+          onChange={(e) => setPlayerData({ ...playerData, name: e.target.value })}
           autoComplete='off'
           required
           name='name'
@@ -102,7 +103,7 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
         <input type='text'
           className='Form-item'
           value={playerData.lastName}
-          onChange={(e) => setPlayerData({...playerData, lastName: e.target.value})}
+          onChange={(e) => setPlayerData({ ...playerData, lastName: e.target.value })}
           autoComplete='off'
           required
           name='lastName'
@@ -114,17 +115,17 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
         <label className='Form-radio'>
           <input type='radio'
             id='male'
-            onChange={() => setPlayerData({...playerData, gender: 0})}
+            onChange={() => setPlayerData({ ...playerData, gender: Gender.Male })}
             name='gender'
-            checked={playerData.gender === 0} />
+            checked={playerData.gender === Gender.Male} />
           Мужской
         </label>
         <label className='Form-radio'>
           <input type='radio'
             id='female'
-            onChange={() => setPlayerData({...playerData, gender: 1})}
+            onChange={() => setPlayerData({ ...playerData, gender: Gender.Female })}
             name='gender'
-            checked={playerData.gender === 1}/>
+            checked={playerData.gender === Gender.Female} />
           Женский
         </label>
       </fieldset>
@@ -135,13 +136,13 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
           className='Form-item'
           defaultValue={playerData.birthday}
           required
-          onChange={(e) => setPlayerData({...playerData, birthday: e.target.value})}
+          onChange={(e) => setPlayerData({ ...playerData, birthday: e.target.value })}
           name='birthday' />
       </fieldset>
 
       <fieldset className='Form-fieldset'>
         <legend>Команда:</legend>
-        <TeamSelector onSelect={(team) => setPlayerData({...playerData, team})} defaultValue={defaultValues?.team} />
+        <TeamSelector onSelect={(team) => setPlayerData({ ...playerData, team })} defaultValue={defaultValues?.team} />
       </fieldset>
 
       <fieldset className='Form-fieldset'>
@@ -149,7 +150,7 @@ const PlayerForm = ({ endpoint, defaultValues }: IPlayerFormProps) => {
         <select name="country"
           className='Form-item'
           value={playerData.country}
-          onChange={(e) => setPlayerData({...playerData, country: Number.parseInt(e.target.value)})}>
+          onChange={(e) => setPlayerData({ ...playerData, country: Number.parseInt(e.target.value) })}>
           {Countries.map((c, i) => (
             <option value={i}>{c}</option>
           ))}
