@@ -1,7 +1,7 @@
 import PlayerForm from './PlayerForm';
 
 const RegisterForm = () => {
-  const endpoint = '/api/Players/Create';
+  const endpoint = '/Players/Create';
 
   return (
     <section className='App-section Register-form'>

@@ -8,11 +8,11 @@ import { getCountryName } from "./Country";
 import { Gender } from "./Gender";
 
 const connection = new HubConnectionBuilder()
-  .withUrl('https://localhost:7070/api/PlayersHub')
+  .withUrl(`${process.env.REACT_APP_API_URI}/PlayersHub`)
   .build();
 
 const PlayersList = () => {
-  const editEndpoint = '/api/Players/Update';
+  const editEndpoint = '/Players/Update';
 
   const [players, setPlayers] = useState<IFootballPlayer[]>([]);
   const [error, setError] = useState('');
@@ -20,7 +20,7 @@ const PlayersList = () => {
 
   const fetchPlayers = useCallback(async () => {
     try {
-      const { data } = await axios.get(`https://localhost:7070/api/Players/Get`, {
+      const { data } = await axios.get(`/Players/Get`, {
         headers: {
           Accept: 'application/json',
         }

@@ -21,7 +21,7 @@ const TeamSelector = ({ onSelect, defaultValue }: ITeamSelectorProps) => {
   const fetchTeams = useCallback(async () => {
     if (userInput) {
       try {
-        const { data } = await axios.get(`/api/Teams/Search/?pattern=${userInput}&maxCount=${maxTeams}`, {
+        const { data } = await axios.get(`/Teams/Search/?pattern=${userInput}&maxCount=${maxTeams}`, {
           headers: {
             Accept: 'application/json',
           }
@@ -73,7 +73,7 @@ const TeamSelector = ({ onSelect, defaultValue }: ITeamSelectorProps) => {
   };
 
   const createTeam = async (name: string) => {
-    const { data } = await axios.post(`/api/Teams/Create/?teamName=${name}`);
+    const { data } = await axios.post(`/Teams/Create/?teamName=${name}`);
 
     setUserInput(name);
     itemClicked({ id: data, name });
