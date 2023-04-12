@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  backend:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      "ConnectionStrings:CatalogDatabase": "Host=database;Port=5432;Database=catalog-db;Username=postgres;Password=passwd123"
+    image: ${DOCKER_REGISTRY-}backend
+    build:
+      context: .
+      dockerfile: FootballCatalogBackend/Dockerfile
+    depends_on:
+      - database
+  database:
+    image: postgres:15-alpine
+    user: postgres
+    environment:
+      - POSTGRES_PASSWORD=passwd123
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: [ CMD-SHELL, pg_isready ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  client:
+    image: ${DOCKER_REGISTRY-}client
+    build:
+      context: ./football-catalog-frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+  proxy:
+    image: nginx:mainline
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+      - client
