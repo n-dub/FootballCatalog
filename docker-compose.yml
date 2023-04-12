@@ -13,8 +13,10 @@ services:
       - database
   database:
     image: postgres:15-alpine
-    user: postgres
+    restart: always
     environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
       - POSTGRES_PASSWORD=passwd123
       - PGDATA=/var/lib/postgresql/data/pgdata
     healthcheck:
